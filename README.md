@@ -53,9 +53,9 @@ We prioritize **Decoupled Testing**. The logic is separated from the infrastruct
 python -m pytest -s tests/test_clv_logic.py
 ```
 
-*Happy Path: Validates model prediction on standard data.
-*Boundary Testing: Handles empty DataFrames and negative value clipping.
-*Logic Validation: Uses "Brain" decomposition to test validation ratios without requiring a BigQuery connection.
+* Happy Path: Validates model prediction on standard data.
+* Boundary Testing: Handles empty DataFrames and negative value clipping.
+* Logic Validation: Uses "Brain" decomposition to test validation ratios without requiring a BigQuery connection.
 
 ##  📈 Business Impact
 
