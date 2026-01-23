@@ -2,7 +2,6 @@
 
 This project is an end-to-end data engineering solution that predicts the future value of customers using probabilistic modeling. It is designed with a **"Safety-First"** architecture, ensuring that the machine learning models never process "garbage" data.
 
----
 
 ## Technologies & Tools
 
@@ -12,7 +11,6 @@ This project is an end-to-end data engineering solution that predicts the future
 * **ML Libraries:** Lifetimes (BetaGeoFitter, GammaGammaFitter), Pandas, NumPy
 * **Testing:** Pytest
 
----
 
 ## Data Flow Architecture
 
@@ -27,7 +25,6 @@ The pipeline is divided into four distinct stages to ensure modularity and ease 
 4.  **CLV Modeling (Python):** Fits the probabilistic models and writes predictions back to BigQuery.
 
 
----
 
 ## Containerization & Deployment
 
@@ -45,7 +42,6 @@ The environment is managed via `docker-compose`. This spins up the Airflow Webse
     docker-compose up -d
     ```
 
----
 
 ## 🧪 Testing Suite
 
@@ -55,6 +51,7 @@ We prioritize **Decoupled Testing**. The logic is separated from the infrastruct
 ```bash
 # From the project root
 python -m pytest -s tests/test_clv_logic.py
+```
 
 *Happy Path: Validates model prediction on standard data.
 *Boundary Testing: Handles empty DataFrames and negative value clipping.
