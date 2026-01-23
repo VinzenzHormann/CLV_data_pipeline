@@ -1,0 +1,83 @@
+#version: '3.7'
+services:
+  postgres:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=airflow
+      - POSTGRES_PASSWORD=airflow
+      - POSTGRES_DB=airflow
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "airflow"]
+      interval: 5s
+      retries: 5
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+  
+
+  airflow_webserver:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy # Keep the postgres dependency!
+    ports:
+      - "8080:8080"
+    command: webserver
+    user: "${AIRFLOW_UID:-5000}:0"
+    environment:
+      - AIRFLOW__WEBSERVER__SECRET_KEY=INDwMU^3Gjm7b&w%5I)-Q&sxRHG^PkgvJNl!LT^prBiV_E*u
+      - AIRFLOW__WEBSERVER__BASE_URL=http://localhost:8080
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres:5432/airflow
+      - AIRFLOW_EXECUTOR=SequentialExecutor
+      - AIRFLOW__SCHEDULER__SCHEDULER_RUNS=1
+      - AIRFLOW__CORE__REMOTE_LOGGING=False
+      - AIRFLOW__CORE__LOCAL_TASK_JOB_LOGGING_FORMAT=%(filename)s:%(lineno)s %(levelname)s - %(message)s
+      - AIRFLOW__LOGGING__LOGGING_LEVEL=INFO
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./plugins:/opt/airflow/plugins
+      - ./data:/opt/airflow/data # Staging area
+      - ./init_db.sh:/usr/local/bin/init_db.sh
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+  
+  
+  
+  
+  airflow_scheduler:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy # Keep the postgres dependency!
+    command: scheduler
+    user: "${AIRFLOW_UID:-5000}:0"
+    environment:
+      - AIRFLOW__WEBSERVER__SECRET_KEY=INDwMU^3Gjm7b&w%5I)-Q&sxRHG^PkgvJNl!LT^prBiV_E*u
+      - AIRFLOW__WEBSERVER__BASE_URL=http://localhost:8080
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres:5432/airflow
+      - AIRFLOW_EXECUTOR=SequentialExecutor
+      - AIRFLOW__CORE__REMOTE_LOGGING=False
+      - AIRFLOW__CORE__LOCAL_TASK_JOB_LOGGING_FORMAT=%(filename)s:%(lineno)s %(levelname)s - %(message)s
+      - AIRFLOW__LOGGING__LOGGING_LEVEL=INFO
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./plugins:/opt/airflow/plugins
+      - ./data:/opt/airflow/data # Staging area
+      
+      
+      
+volumes:
+  postgres_data:
+    # This creates a persistent volume managed by Docker
+    # that is NOT deleted by `docker compose down` unless you use the -v flag.
+      

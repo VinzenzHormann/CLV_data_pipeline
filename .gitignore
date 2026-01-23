@@ -1,0 +1,44 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+env/
+build/
+dist/
+
+# --- Pytest / Testing ---
+.pytest_cache/
+.coverage
+htmlcov/
+tests/.pytest_cache/
+
+# --- Environment / Secrets ---
+.env
+*.json
+# Specifically ignore GCP service account keys if you keep them in the repo
+keys/
+secrets/
+
+# --- Docker ---
+.docker/
+# Optional: Ignore local docker data if you mount volumes
+docker-data/
+
+# --- IDE / Editor ---
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# --- System / OS ---
+.DS_Store
+Thumbs.db
+
+# --- Airflow ---
+standalone_admin_password.txt
+airflow.cfg
+airflow.db
+logs/
