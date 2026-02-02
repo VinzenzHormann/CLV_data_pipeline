@@ -62,7 +62,7 @@ services:
     command: scheduler
     user: "${AIRFLOW_UID:-5000}:0"
     environment:
-      - AIRFLOW__WEBSERVER__SECRET_KEY=INDwMU^3Gjm7b&w%5I)-Q&sxRHG^PkgvJNl!LT^prBiV_E*u
+      - AIRFLOW__WEBSERVER__SECRET_KEY=-
       - AIRFLOW__WEBSERVER__BASE_URL=http://localhost:8080
       - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres:5432/airflow
       - AIRFLOW_EXECUTOR=SequentialExecutor
