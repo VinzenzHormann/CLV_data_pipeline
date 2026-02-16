@@ -43,7 +43,7 @@ The environment is managed via `docker-compose`. This spins up the Airflow Webse
     ```
 
 
-## 🧪 Testing Suite
+## Testing Suite
 
 We prioritize **Decoupled Testing**. The logic is separated from the infrastructure (Airflow/BigQuery), allowing tests to run locally without a cloud connection.
 
@@ -57,6 +57,6 @@ python -m pytest -s tests/test_clv_logic.py
 * Boundary Testing: Handles empty DataFrames and negative value clipping.
 * Logic Validation: Uses "Brain" decomposition to test validation ratios without requiring a BigQuery connection.
 
-##  📈 Business Impact
+##  Business Impact
 
 This pipeline provides the Marketing team with a "Daily Truth" on customer value. By automating the quality checks, we have reduced the risk of budget misallocation by 99%, ensuring that CLV-based bidding strategies are always backed by verified data.
