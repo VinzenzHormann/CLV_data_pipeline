@@ -1,0 +1,8 @@
+numpy==1.24.3
+pandas==2.1.1
+pyarrow
+pandas-gbq
+apache-airflow-providers-google
+lifetimes
+pendulum
+pytest
